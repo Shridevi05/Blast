@@ -1,0 +1,30 @@
+<!-- surprise.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page3" onload="startCelebration()">
+  <button id="theme-toggle" class="theme-toggle">Toggle Theme</button>
+  <div class="banner" id="banner">🎉 Its My 20th Birthday! 🎉</div>
+
+  <div class="cake-wrapper">
+    <div class="cake" id="cake">
+      <div class="layer layer1"></div>
+      <div class="layer layer2"></div>
+      <div class="layer layer3"></div>
+      <div class="layer layer4"></div>
+      <div class="candle">
+        <div class="flame" id="flame"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="message" id="message"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
