@@ -1,10 +1,6 @@
-// script.js
-
-// Load Firebase (from CDN)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Your config
 const firebaseConfig = {
   apiKey: "AIzaSyAutCW6wbbqqoQ9xFmoUQ94tOfetlmYiu8",
   authDomain: "birthdayguestbook.firebaseapp.com",
@@ -15,30 +11,24 @@ const firebaseConfig = {
   measurementId: "G-KLF16SE0XS"
 };
 
-// Init Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Generate or get unique visitor ID
 let visitorId = localStorage.getItem("visitorId");
 if (!visitorId) {
   visitorId = crypto.randomUUID();
   localStorage.setItem("visitorId", visitorId);
 }
 
-// DOM ready
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("wishForm");
   const wishList = document.getElementById("wishList");
 
   if (form && wishList) {
-    // Handle form submission
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const name = document.getElementById("name").value.trim();
       const wish = document.getElementById("wish").value.trim();
-
       if (!name || !wish) return;
 
       try {
@@ -49,16 +39,15 @@ document.addEventListener("DOMContentLoaded", async () => {
           timestamp: Date.now()
         });
 
-        // Show their wish immediately
         wishList.innerHTML = `<strong>${name}:</strong> ${wish}`;
         form.reset();
+        launchConfetti(); // 🎉
       } catch (err) {
-        console.error("Failed to save wish:", err);
-        alert("Something went wrong. Try again later!");
+        alert("Error saving wish.");
+        console.error(err);
       }
     });
 
-    // Show existing wish if already submitted
     const q = query(collection(db, "wishes"), where("visitorId", "==", visitorId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -67,3 +56,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 });
+
+// 🎉 Confetti Function
+function launchConfetti() {
+  import("https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.module.mjs").then(({ default: confetti }) => {
+    confetti({
+      particleCount: 100,
+      spread: 90,
+      origin: { y: 0.6 },
+    });
+  });
+}
