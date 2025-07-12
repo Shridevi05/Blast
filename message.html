@@ -37,7 +37,6 @@
     &copy; 2025 Shridevi's 20th Birthday | Made with 💖
   </footer>
 
-  <!-- 🧠 Scripts -->
   <script src="script.js"></script>
   <script>
     function checkPassword() {
@@ -46,7 +45,7 @@
       if (pwd === correctPwd) {
         document.getElementById("login").classList.add("hidden");
         document.getElementById("wishesSection").classList.remove("hidden");
-        loadAllWishes();
+        loadAllWishes(false); // view-only mode
       } else {
         alert("Incorrect password!");
       }
