@@ -18,7 +18,7 @@
     <a href="admin.html">Admin</a>
   </nav>
 
-  <h1>🎂 All Birthday Wishes</h1>
+  <h1>🎂 Admin - All Birthday Wishes</h1>
   <div id="wishList"></div>
 
   <footer>
@@ -32,7 +32,7 @@
       alert("Access Denied");
       location.href = "index.html";
     } else {
-      loadAllWishes();
+      loadAllWishes(true); // admin mode
     }
   </script>
 </body>
