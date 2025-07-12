@@ -1,30 +1,36 @@
-<!-- surprise.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Birthday!</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
 </head>
-<body class="page3" onload="startCelebration()">
-  <button id="theme-toggle" class="theme-toggle">Toggle Theme</button>
-  <div class="banner" id="banner">🎉 Its My 20th Birthday! 🎉</div>
+<body onload="fireConfetti()">
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
 
-  <div class="cake-wrapper">
-    <div class="cake" id="cake">
-      <div class="layer layer1"></div>
-      <div class="layer layer2"></div>
-      <div class="layer layer3"></div>
-      <div class="layer layer4"></div>
-      <div class="candle">
-        <div class="flame" id="flame"></div>
-      </div>
+  <h1 class="birthday-heading">🎉 It's My 20th Birthday! 🎉</h1>
+
+  <div class="cake">
+    <div class="layer top"></div>
+    <div class="layer middle"></div>
+    <div class="layer bottom"></div>
+    <div class="candle">
+      <div class="flame"></div>
     </div>
   </div>
 
-  <p class="message" id="message"></p>
+  <div class="message">
+    <p>Hey Beautiful Me,</p>
+    <p>Happy 20th Birthday to Me! 🎂✨</p>
+    <p>Today is all about celebrating how far I’ve come — the laughter, the tears, the late-night overthinking, and all the strength I never realized I had.</p>
+    <p>I’m proud of the person I’m becoming: resilient, kind, creative, and full of heart.</p>
+    <p>This year, I’m choosing joy, growth, peace, and unstoppable confidence. I deserve the love I give so freely, and I’m finally giving some back to myself. 💖</p>
+    <p>Here’s to chasing dreams, making memories, and never shrinking to fit into spaces I’ve outgrown. The best is yet to come.</p>
+    <p>With love, from Me to Me 💕</p>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
