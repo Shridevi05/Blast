@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Birthday Gallery</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button id="theme-toggle" class="theme-toggle">Toggle Theme</button>
-  <h1>🎂 Mine</h1>
-  <div class="slideshow-container" id="slideshow">
-    <img class="slide" src="img/photo1.jpg" alt="Photo 1">
-    <img class="slide" src="img/photo2.jpg" alt="Photo 2">
-    <img class="slide" src="img/photo3.jpg" alt="Photo 3">
-    <img class="slide" src="img/photo4.jpg" alt="Photo 4">
-    <img class="slide" src="img/photo5.jpg" alt="Photo 5">
-    <img class="slide" src="img/photo6.jpg" alt="Photo 6">
-    <img class="slide" src="img/photo7.jpg" alt="Photo 7">
-    <img class="slide" src="img/photo8.jpg" alt="Photo 8">
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+
+  <nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="celebration.html">Celebration</a>
+    <a href="surprise.html">Surprise</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="guestbook.html">Guestbook</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+
+  <h1>📸 Birthday Gallery</h1>
+  <div class="gallery">
+    <img src="img/photo1.jpg" alt="photo1" onclick="viewImg(this.src)" />
+    <img src="img/photo2.jpg" alt="photo2" onclick="viewImg(this.src)" />
+    <img src="img/photo3.jpg" alt="photo3" onclick="viewImg(this.src)" />
+    <img src="img/photo4.jpg" alt="photo4" onclick="viewImg(this.src)" />
+    <img src="img/photo5.jpg" alt="photo5" onclick="viewImg(this.src)" />
+    <img src="img/photo6.jpg" alt="photo6" onclick="viewImg(this.src)" />
+    <img src="img/photo7.jpg" alt="photo7" onclick="viewImg(this.src)" />
+    <img src="img/photo8.jpg" alt="photo8" onclick="viewImg(this.src)" />
   </div>
+
+  <div id="lightbox" onclick="this.style.display='none'">
+    <img id="fullImg" />
+  </div>
+
+  <footer>
+    <p>© 2025 Shridevi's 20th Birthday Blast 🎉</p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
