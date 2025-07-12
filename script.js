@@ -17,19 +17,47 @@ function submitWish(event) {
   document.getElementById("confirmation").innerHTML = "🎉 Thank you for your wish! 🎉";
   document.getElementById("yourWish").innerHTML = `<p><b>${name}:</b> ${wish}</p>`;
 
-  confetti(); // Launch confetti
+  fireConfetti(); // Launch confetti
 }
 
-// 📖 Load All Wishes for Admin View
-function loadAllWishes() {
+// 📖 Load All Wishes (for message.html or admin.html)
+function loadAllWishes(isAdmin = false) {
   const container = document.getElementById("wishList");
   const wishes = JSON.parse(localStorage.getItem("wishes")) || [];
   container.innerHTML = "";
-  wishes.reverse().forEach(w => {
+
+  if (wishes.length === 0) {
+    container.innerHTML = "<p>No wishes yet!</p>";
+    return;
+  }
+
+  wishes.reverse().forEach((w, index) => {
     const div = document.createElement("div");
-    div.innerHTML = `<p><b>${w.name}</b> (${w.timestamp}):<br>${w.message}</p><hr>`;
+    div.innerHTML = `<p><b>${w.name}</b> (${w.timestamp}):<br>${w.message}</p>`;
+
+    if (isAdmin) {
+      const btn = document.createElement("button");
+      btn.textContent = "❌ Delete";
+      btn.style.marginLeft = "10px";
+      btn.onclick = () => deleteWish(index);
+      div.appendChild(btn);
+    }
+
+    div.innerHTML += "<hr>";
     container.appendChild(div);
   });
+}
+
+// ❌ Delete a wish (admin only)
+function deleteWish(index) {
+  if (confirm("Are you sure you want to delete this wish?")) {
+    const wishes = JSON.parse(localStorage.getItem("wishes")) || [];
+    wishes.reverse(); // Match display order
+    wishes.splice(index, 1);
+    wishes.reverse();
+    localStorage.setItem("wishes", JSON.stringify(wishes));
+    loadAllWishes(true);
+  }
 }
 
 // 📸 Lightbox Gallery
@@ -40,9 +68,11 @@ function viewImg(src) {
 
 // 🧨 Confetti Blast
 function fireConfetti() {
-  confetti({
-    particleCount: 150,
-    spread: 100,
-    origin: { y: 0.6 }
-  });
+  if (typeof confetti === "function") {
+    confetti({
+      particleCount: 150,
+      spread: 100,
+      origin: { y: 0.6 }
+    });
+  }
 }
