@@ -1,22 +1,15 @@
-<!-- celebration.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ready?</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="page2">
-  <button id="theme-toggle" class="theme-toggle">Toggle Theme</button>
-  <div class="center">
-    <h1>Are you ready?</h1>
-    <button onclick="goToSurprise()" class="button">Let's Gooo 🚀</button>
-  </div>
-  <script>
-    function goToSurprise() {
-      window.location.href = "surprise.html";
-    }
-  </script>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  <h1>Are you ready?</h1>
+  <a class="cta" href="surprise.html">Let's Gooo 🚀</a>
   <script src="script.js"></script>
 </body>
 </html>
