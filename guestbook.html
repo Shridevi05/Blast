@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Birthday Guestbook</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button id="theme-toggle" class="theme-toggle">Toggle Theme</button>
-  <h1>🎁 Leave Your Wish!</h1>
-  <form id="wishForm">
-    <input type="text" id="name" placeholder="Your Name" required>
-    <textarea id="wish" placeholder="Your Birthday Wish..." required></textarea>
-    <button type="submit" class="button">Send Wish</button>
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  <h1>Leave Your Birthday Wish!</h1>
+  <form onsubmit="submitWish(event)">
+    <input type="text" id="name" placeholder="Your Name" required />
+    <textarea id="wish" placeholder="Your Wish" required></textarea>
+    <button type="submit" class="cta">Submit Wish</button>
   </form>
-  <div id="wishList" class="wish-list"></div>
+  <div id="confirmation"></div>
+  <div id="yourWish"></div>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
-  <script type="module" src="script.js"></script>
 </body>
 </html>
