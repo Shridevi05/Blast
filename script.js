@@ -31,7 +31,7 @@ function loadAllWishes(isAdmin = false) {
     return;
   }
 
-  wishes.reverse().forEach((w, index) => {
+  wishes.forEach((w, index) => {
     const div = document.createElement("div");
     div.innerHTML = `<p><b>${w.name}</b> (${w.timestamp}):<br>${w.message}</p>`;
 
@@ -52,9 +52,7 @@ function loadAllWishes(isAdmin = false) {
 function deleteWish(index) {
   if (confirm("Are you sure you want to delete this wish?")) {
     const wishes = JSON.parse(localStorage.getItem("wishes")) || [];
-    wishes.reverse(); // Match display order
     wishes.splice(index, 1);
-    wishes.reverse();
     localStorage.setItem("wishes", JSON.stringify(wishes));
     loadAllWishes(true);
   }
