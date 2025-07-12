@@ -1,21 +1,12 @@
+/* 🎨 Global Styles */
 body {
   font-family: 'Comic Sans MS', cursive;
   background: linear-gradient(to right, #ffc0cb, #fbb1d8);
+  color: #333;
   text-align: center;
   padding: 2rem;
+  margin: 0;
   transition: background 0.5s, color 0.5s;
-}
-
-.theme-toggle {
-  position: absolute;
-  right: 20px;
-  top: 10px;
-  padding: 5px 10px;
-  background: #333;
-  color: white;
-  cursor: pointer;
-  border: none;
-  border-radius: 4px;
 }
 
 body.dark-mode {
@@ -23,69 +14,55 @@ body.dark-mode {
   color: white;
 }
 
-.button-group, form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  margin-top: 2rem;
-}
-
-.button-group a, .cta {
-  background: #ff726f;
+/* 🌗 Theme Toggle Button */
+.theme-toggle {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  padding: 5px 10px;
+  background: #333;
   color: white;
-  padding: 12px 24px;
-  text-decoration: none;
-  border-radius: 10px;
-  width: 280px;
-  font-size: 1rem;
-  transition: background 0.3s;
-}
-
-.button-group a:hover, .cta:hover {
-  background: #ff5957;
-}
-
-form input, form textarea {
-  width: 280px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-}
-
-form textarea {
-  height: 100px;
-  resize: none;
-}
-
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.gallery img {
-  width: 100px;
-  margin: 10px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  border-radius: 8px;
+  z-index: 10;
 }
 
-#lightbox {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.8);
-  display: none;
-  align-items: center;
+/* 🔗 Navigation Bar */
+.navbar {
+  background: #ff69b4;
+  padding: 10px 20px;
+  display: flex;
   justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
-#lightbox img {
-  max-width: 90%;
-  max-height: 90%;
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: color 0.3s;
 }
 
+.navbar a:hover {
+  color: #fffacd;
+}
+
+/* 📦 Footer */
+footer {
+  margin-top: 40px;
+  padding: 10px;
+  background: #ffe4e1;
+  color: #333;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+/* 🧁 Cake */
 .cake {
   margin: 2rem auto;
   width: 100px;
@@ -96,6 +73,7 @@ form textarea {
 .layer {
   width: 100px;
   height: 30px;
+  background: #fff;
   margin: 5px auto;
   border-radius: 5px;
 }
@@ -114,14 +92,14 @@ form textarea {
 }
 
 .flame {
-  width: 12px;
-  height: 18px;
+  width: 10px;
+  height: 15px;
   background: orange;
-  border-radius: 50% 50% 50% 50%;
+  border-radius: 50%;
   position: absolute;
-  top: -20px;
-  left: -3px;
-  animation: flicker 0.3s infinite;
+  top: -35px;
+  left: -2px;
+  animation: flicker 0.2s infinite;
 }
 
 @keyframes flicker {
@@ -130,10 +108,90 @@ form textarea {
   100% { opacity: 1; transform: scale(1); }
 }
 
-.message {
-  max-width: 700px;
-  margin: auto;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  text-align: center;
+/* 💌 Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form input, form textarea {
+  width: 60%;
+  max-width: 400px;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+form button {
+  width: 200px;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #ff69b4;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #ff4081;
+}
+
+/* 🎉 Buttons and CTA */
+.button-group a, .cta {
+  display: block;
+  margin: 10px auto;
+  width: 200px;
+  background: #ff726f;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.button-group a:hover, .cta:hover {
+  background: #ff4f4f;
+}
+
+/* 📸 Gallery */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.gallery img {
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+/* 🔍 Lightbox */
+#lightbox {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+/* 🔒 Hidden Login Section */
+.hidden {
+  display: none;
 }
