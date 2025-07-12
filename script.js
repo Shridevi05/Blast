@@ -1,7 +1,9 @@
+// 🌙 Dark Mode Toggle
 function toggleTheme() {
   document.body.classList.toggle("dark-mode");
 }
 
+// 💌 Submit Wish and Store in LocalStorage
 function submitWish(event) {
   event.preventDefault();
   const name = document.getElementById("name").value.trim();
@@ -15,12 +17,14 @@ function submitWish(event) {
   document.getElementById("confirmation").innerHTML = "🎉 Thank you for your wish! 🎉";
   document.getElementById("yourWish").innerHTML = `<p><b>${name}:</b> ${wish}</p>`;
 
-  confetti();
+  confetti(); // Launch confetti
 }
 
+// 📖 Load All Wishes for Admin View
 function loadAllWishes() {
   const container = document.getElementById("wishList");
   const wishes = JSON.parse(localStorage.getItem("wishes")) || [];
+  container.innerHTML = "";
   wishes.reverse().forEach(w => {
     const div = document.createElement("div");
     div.innerHTML = `<p><b>${w.name}</b> (${w.timestamp}):<br>${w.message}</p><hr>`;
@@ -28,11 +32,13 @@ function loadAllWishes() {
   });
 }
 
+// 📸 Lightbox Gallery
 function viewImg(src) {
   document.getElementById("lightbox").style.display = "flex";
   document.getElementById("fullImg").src = src;
 }
 
+// 🧨 Confetti Blast
 function fireConfetti() {
   confetti({
     particleCount: 150,
