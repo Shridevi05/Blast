@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>All Wishes 🎂</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .wish-box {
-      background: #fff2f9;
-      border: 1px solid #e0c9ff;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 12px;
-    }
-  </style>
 </head>
 <body>
-  <h1 style="text-align:center;">🎁 Wishes Received</h1>
-  <div id="adminWishList" style="max-width:600px;margin:auto;"></div>
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  <h1>🎂 All Birthday Wishes</h1>
+  <div id="wishList"></div>
 
-  <script type="module" src="admin.js"></script>
+  <script src="script.js"></script>
+  <script>
+    const pwd = prompt("Enter admin password:");
+    if (pwd !== "shridevi20") {
+      alert("Access Denied");
+      location.href = "index.html";
+    } else {
+      loadAllWishes();
+    }
+  </script>
 </body>
 </html>
