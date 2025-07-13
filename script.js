@@ -140,3 +140,38 @@ function fireConfetti() {
     });
   }
 }
+function addPhoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const base64 = e.target.result;
+
+    // Save to localStorage
+    let photos = JSON.parse(localStorage.getItem("galleryPhotos")) || [];
+    photos.push(base64);
+    localStorage.setItem("galleryPhotos", JSON.stringify(photos));
+
+    // Add to gallery
+    const img = document.createElement("img");
+    img.src = base64;
+    img.onclick = () => viewImg(base64);
+    img.className = "gallery-img";
+    document.getElementById("gallery").appendChild(img);
+  };
+  reader.readAsDataURL(file);
+}
+
+// Load custom uploaded photos
+window.onload = function() {
+  const storedPhotos = JSON.parse(localStorage.getItem("galleryPhotos")) || [];
+  storedPhotos.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.onclick = () => viewImg(src);
+    img.className = "gallery-img";
+    document.getElementById("gallery").appendChild(img);
+  });
+};
+
