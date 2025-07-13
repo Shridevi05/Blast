@@ -1,177 +1,141 @@
-// 🌙 Dark Mode Toggle
-function toggleTheme() {
+// script.js (FULLY UPDATED)
+
+import { db, storage } from "./firebase.js";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-storage.js";
+
+// 🌙 Toggle Theme
+export function toggleTheme() {
   document.body.classList.toggle("dark-mode");
 }
 
-// 💌 Submit Wish and Store in LocalStorage
-function submitWish(event) {
-  event.preventDefault();
-  const name = document.getElementById("name").value.trim();
-  const wish = document.getElementById("wish").value.trim();
-  const flower = document.getElementById("flower").value;
-  const imageInput = document.getElementById("wishImage");
-  let imageUrl = "";
-
-  if (imageInput.files[0]) {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      imageUrl = reader.result;
-      saveWish(name, wish, flower, imageUrl);
-    };
-    reader.readAsDataURL(imageInput.files[0]);
-  } else {
-    saveWish(name, wish, flower, "");
-  }
-}
-
-function saveWish(name, wish, flower, imageUrl) {
-  const wishes = JSON.parse(localStorage.getItem("wishes")) || [];
-  wishes.push({ name, message: wish, flower, imageUrl, timestamp: new Date().toLocaleString() });
-  localStorage.setItem("wishes", JSON.stringify(wishes));
-
-  document.getElementById("confirmation").innerHTML = "🎉 Thank you for your wish!";
-  document.getElementById("yourWish").innerHTML = `<p><b>${name}:</b> ${wish} ${flower}<br>${imageUrl ? `<img src="${imageUrl}" class="wish-img">` : ""}</p>`;
-  fireConfetti();
-}
-
-// 📖 Load All Wishes
-function loadAllWishes(isAdmin = false) {
-  const container = document.getElementById("wishList");
-  const wishes = JSON.parse(localStorage.getItem("wishes")) || [];
-  container.innerHTML = "";
-
-  if (wishes.length === 0) {
-    container.innerHTML = "<p>No wishes yet!</p>";
-    return;
-  }
-
-  wishes.forEach((w, index) => {
-    const div = document.createElement("div");
-    div.innerHTML = `<p><b>${w.name}</b> (${w.timestamp}):<br>${w.message} ${w.flower || ""}<br>${w.imageUrl ? `<img src="${w.imageUrl}" class="wish-img">` : ""}</p>`;
-    if (isAdmin) {
-      const btn = document.createElement("button");
-      btn.textContent = "❌ Delete";
-      btn.onclick = () => deleteWish(index);
-      div.appendChild(btn);
-    }
-    div.innerHTML += "<hr>";
-    container.appendChild(div);
-  });
-}
-
-// ❌ Delete Wish (Admin Only)
-function deleteWish(index) {
-  if (confirm("Are you sure you want to delete this wish?")) {
-    const wishes = JSON.parse(localStorage.getItem("wishes")) || [];
-    wishes.splice(index, 1);
-    localStorage.setItem("wishes", JSON.stringify(wishes));
-    loadAllWishes(true);
-  }
-}
-
-// 📸 Lightbox Viewer for Gallery
-let currentImgIndex = 0;
-function viewImg(src, index) {
-  currentImgIndex = index;
-  document.getElementById("lightbox").style.display = "flex";
-  document.getElementById("fullImg").src = src;
-}
-
-function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
-}
-
-function prevImg(event) {
-  event.stopPropagation();
-  const images = document.querySelectorAll(".gallery img");
-  if (currentImgIndex > 0) currentImgIndex--;
-  document.getElementById("fullImg").src = images[currentImgIndex].src;
-}
-
-function nextImg(event) {
-  event.stopPropagation();
-  const images = document.querySelectorAll(".gallery img");
-  if (currentImgIndex < images.length - 1) currentImgIndex++;
-  document.getElementById("fullImg").src = images[currentImgIndex].src;
-}
-
-// 🖼️ Handle Image Upload to Gallery
-window.onload = () => {
-  const input = document.getElementById("imgUpload");
-  if (input) {
-    input.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const images = JSON.parse(localStorage.getItem("galleryImages")) || [];
-          images.push(reader.result);
-          localStorage.setItem("galleryImages", JSON.stringify(images));
-          displayGallery();
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-    displayGallery();
-  }
-};
-
-// 🖼️ Display Gallery Images
-function displayGallery() {
-  const images = JSON.parse(localStorage.getItem("galleryImages")) || [];
-  const gallery = document.getElementById("gallery");
-  if (!gallery) return;
-  gallery.innerHTML = "";
-  images.forEach((src, i) => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.onclick = () => viewImg(src, i);
-    gallery.appendChild(img);
-  });
-}
-
 // 🎉 Confetti
-function fireConfetti() {
+export function fireConfetti() {
   if (typeof confetti === "function") {
     confetti({
-      particleCount: 150,
-      spread: 100,
+      particleCount: 100,
+      spread: 80,
       origin: { y: 0.6 }
     });
   }
 }
-function addPhoto(event) {
-  const file = event.target.files[0];
-  if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const base64 = e.target.result;
+// 💌 Submit a Wish
+window.submitWish = async function (event) {
+  event.preventDefault();
 
-    // Save to localStorage
-    let photos = JSON.parse(localStorage.getItem("galleryPhotos")) || [];
-    photos.push(base64);
-    localStorage.setItem("galleryPhotos", JSON.stringify(photos));
+  const name = document.getElementById("name").value.trim();
+  const message = document.getElementById("wish").value.trim();
+  const file = document.getElementById("wishImage").files[0];
+  const flower = document.querySelector('input[name="flower"]:checked')?.value || "";
 
-    // Add to gallery
-    const img = document.createElement("img");
-    img.src = base64;
-    img.onclick = () => viewImg(base64);
-    img.className = "gallery-img";
-    document.getElementById("gallery").appendChild(img);
-  };
-  reader.readAsDataURL(file);
+  if (!name || !message) return alert("Please enter both name and message");
+
+  let imageUrl = "";
+  if (file) {
+    const imgRef = ref(storage, `wishImages/${Date.now()}_${file.name}`);
+    await uploadBytes(imgRef, file);
+    imageUrl = await getDownloadURL(imgRef);
+  }
+
+  await addDoc(collection(db, "wishes"), {
+    name,
+    message,
+    flower,
+    imageUrl,
+    timestamp: new Date().toISOString()
+  });
+
+  document.getElementById("confirmation").innerHTML = "🎉 Thank you for your wish! 🎉";
+  document.getElementById("yourWish").innerHTML = `<p><b>${name}:</b> ${message}</p>`;
+  fireConfetti();
 }
 
-// Load custom uploaded photos
-window.onload = function() {
-  const storedPhotos = JSON.parse(localStorage.getItem("galleryPhotos")) || [];
-  storedPhotos.forEach(src => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.onclick = () => viewImg(src);
-    img.className = "gallery-img";
-    document.getElementById("gallery").appendChild(img);
+// 📖 Load Wishes (Admin or Public)
+window.loadAllWishes = async function (isAdmin = false) {
+  const container = document.getElementById("wishList");
+  const snapshot = await getDocs(collection(db, "wishes"));
+  container.innerHTML = "";
+
+  if (snapshot.empty) {
+    container.innerHTML = "<p>No wishes yet!</p>";
+    return;
+  }
+
+  snapshot.forEach(docSnap => {
+    const w = docSnap.data();
+    const div = document.createElement("div");
+    div.innerHTML = `<p><b>${w.name}</b>: ${w.message}<br><i>${w.flower}</i></p>`;
+
+    if (w.imageUrl) {
+      const img = document.createElement("img");
+      img.src = w.imageUrl;
+      img.style.maxWidth = "200px";
+      div.appendChild(img);
+    }
+
+    if (isAdmin) {
+      const btn = document.createElement("button");
+      btn.textContent = "❌ Delete";
+      btn.onclick = async () => {
+        await deleteDoc(doc(db, "wishes", docSnap.id));
+        loadAllWishes(true);
+      };
+      div.appendChild(btn);
+    }
+
+    div.innerHTML += "<hr>";
+    container.appendChild(div);
   });
 };
 
+// 📸 Gallery View Image
+window.viewImg = function (src, index) {
+  const lightbox = document.getElementById("lightbox");
+  const fullImg = document.getElementById("fullImg");
+  fullImg.src = src;
+  lightbox.dataset.index = index;
+  lightbox.style.display = "flex";
+};
+
+window.prevImg = function () {
+  let index = parseInt(document.getElementById("lightbox").dataset.index);
+  const images = Array.from(document.querySelectorAll(".gallery img"));
+  index = (index - 1 + images.length) % images.length;
+  viewImg(images[index].src, index);
+};
+
+window.nextImg = function () {
+  let index = parseInt(document.getElementById("lightbox").dataset.index);
+  const images = Array.from(document.querySelectorAll(".gallery img"));
+  index = (index + 1) % images.length;
+  viewImg(images[index].src, index);
+};
+
+// 📤 Upload New Gallery Image
+window.uploadGalleryImage = async function () {
+  const file = document.getElementById("galleryInput").files[0];
+  if (!file) return alert("No file selected");
+
+  const imgRef = ref(storage, `gallery/${Date.now()}_${file.name}`);
+  await uploadBytes(imgRef, file);
+  const url = await getDownloadURL(imgRef);
+
+  const gallery = document.querySelector(".gallery");
+  const index = gallery.querySelectorAll("img").length;
+  const img = document.createElement("img");
+  img.src = url;
+  img.onclick = () => viewImg(url, index);
+  gallery.appendChild(img);
+};
