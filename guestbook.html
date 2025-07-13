@@ -25,15 +25,18 @@
     <textarea id="wish" placeholder="Your Wish" required></textarea>
 
     <select id="flower">
-      <option value="">🌸 Choose a flower</option>
-      <option value="🌹">🌹 Rose</option>
-      <option value="🌻">🌻 Sunflower</option>
-      <option value="💐">💐 Bouquet</option>
-      <option value="🌷">🌷 Tulip</option>
-      <option value="🌺">🌺 Hibiscus</option>
+      <option value="">Choose a flower</option>
+      <option value="🌹 Rose">🌹 Rose</option>
+      <option value="🌻 Sunflower">🌻 Sunflower</option>
+      <option value="💐 Bouquet">💐 Bouquet</option>
+      <option value="🌷 Tulip">🌷 Tulip</option>
+      <option value="🌺 Hibiscus">🌺 Hibiscus</option>
+      <option value="🪷 Lotus">🪷 Lotus</option>
+      <option value="🌼 Daisy">🌼 Daisy</option>
+      <option value="🌸 Cherry Blossom">🌸 Cherry Blossom</option>
     </select>
 
-    <input type="file" id="imageUpload" accept="image/*" />
+    <input type="file" id="wishImage" accept="image/*" />
     <button type="submit">Submit Wish</button>
   </form>
 
@@ -45,7 +48,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
-  <script src="firebase.js"></script>
-  <script src="script.js"></script>
+  <script src="firebase.js" type="module"></script>
+  <script src="script.js" type="module"></script>
 </body>
 </html>
