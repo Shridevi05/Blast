@@ -67,11 +67,12 @@ footer {
 
 /* 🧁 Cake */
 .cake {
-  margin: 2rem auto;
+  margin: 4rem auto 2rem auto; /* Top margin increased */
   width: 100px;
   height: 150px;
   position: relative;
 }
+
 
 .layer {
   width: 100px;
