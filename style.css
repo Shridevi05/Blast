@@ -17,15 +17,15 @@ body.dark-mode {
 /* 🌗 Theme Toggle Button */
 .theme-toggle {
   position: fixed;
-  right: 20px;
   top: 10px;
-  padding: 5px 10px;
+  right: 20px;
+  padding: 8px 14px;
   background: #333;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 /* 🔗 Navigation Bar */
@@ -90,7 +90,7 @@ footer {
   height: 20px;
   background: yellow;
   position: absolute;
-  top: -20px;
+  top: -25px;
   left: 47px;
 }
 
@@ -100,7 +100,7 @@ footer {
   background: orange;
   border-radius: 50%;
   position: absolute;
-  top: -15px;
+  top: -35px;
   left: -2px;
   animation: flicker 0.2s infinite;
 }
@@ -118,7 +118,7 @@ form {
   align-items: center;
 }
 
-form input, form textarea, form select {
+form input, form textarea {
   width: 60%;
   max-width: 400px;
   padding: 10px;
@@ -180,48 +180,33 @@ form button:hover {
 /* 🔍 Lightbox */
 #lightbox {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.85);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 999;
   flex-direction: row;
-  gap: 20px;
-  padding: 20px;
+  gap: 10px;
 }
 
-/* Displayed image */
 #lightbox img {
-  max-width: 85%;
-  max-height: 85%;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
 }
 
-/* Navigation buttons */
 #prevBtn, #nextBtn {
-  background: rgba(255, 255, 255, 0.9);
+  background: white;
   border: none;
   font-size: 2rem;
-  padding: 10px 15px;
+  padding: 10px;
   cursor: pointer;
-  border-radius: 50%;
-  transition: background 0.3s;
-}
-
-#prevBtn:hover, #nextBtn:hover {
-  background: #ff69b4;
-  color: white;
-}
-
-
-/* 🖼️ Wish Images */
-.wish-img {
-  width: 100px;
-  height: auto;
-  margin-top: 5px;
   border-radius: 10px;
+  z-index: 1000;
 }
 
 /* 🔒 Hidden Login Section */
@@ -229,15 +214,29 @@ form button:hover {
   display: none;
 }
 
-@media (max-width: 768px) {
+/* 🌸 Virtual Flower Styling */
+.flower-options label {
+  margin: 0 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 600px) {
   .theme-toggle {
-    top: 10px;
     right: 10px;
+    top: 10px;
   }
-  .gallery img, .wish-img {
-    width: 80px;
-  }
-  form input, form textarea, form select {
+
+  form input, form textarea {
     width: 80%;
+  }
+
+  .button-group a, .cta {
+    width: 80%;
+  }
+
+  #prevBtn, #nextBtn {
+    font-size: 1.5rem;
   }
 }
