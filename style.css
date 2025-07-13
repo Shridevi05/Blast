@@ -16,7 +16,7 @@ body.dark-mode {
 
 /* 🌗 Theme Toggle Button */
 .theme-toggle {
-  position: absolute;
+  position: fixed;
   right: 20px;
   top: 10px;
   padding: 5px 10px;
@@ -25,7 +25,7 @@ body.dark-mode {
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  z-index: 10;
+  z-index: 1000;
 }
 
 /* 🔗 Navigation Bar */
@@ -60,6 +60,9 @@ footer {
   color: #333;
   border-radius: 10px;
   font-size: 0.9rem;
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 
 /* 🧁 Cake */
@@ -87,7 +90,7 @@ footer {
   height: 20px;
   background: yellow;
   position: absolute;
-  top: -25px;
+  top: -20px;
   left: 47px;
 }
 
@@ -97,7 +100,7 @@ footer {
   background: orange;
   border-radius: 50%;
   position: absolute;
-  top: -35px;
+  top: -15px;
   left: -2px;
   animation: flicker 0.2s infinite;
 }
@@ -115,7 +118,7 @@ form {
   align-items: center;
 }
 
-form input, form textarea {
+form input, form textarea, form select {
   width: 60%;
   max-width: 400px;
   padding: 10px;
@@ -183,6 +186,8 @@ form button:hover {
   align-items: center;
   justify-content: center;
   z-index: 999;
+  flex-direction: row;
+  gap: 10px;
 }
 
 #lightbox img {
@@ -191,7 +196,38 @@ form button:hover {
   border-radius: 10px;
 }
 
+#prevBtn, #nextBtn {
+  background: white;
+  border: none;
+  font-size: 2rem;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+/* 🖼️ Wish Images */
+.wish-img {
+  width: 100px;
+  height: auto;
+  margin-top: 5px;
+  border-radius: 10px;
+}
+
 /* 🔒 Hidden Login Section */
 .hidden {
   display: none;
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 10px;
+    right: 10px;
+  }
+  .gallery img, .wish-img {
+    width: 80px;
+  }
+  form input, form textarea, form select {
+    width: 80%;
+  }
 }
