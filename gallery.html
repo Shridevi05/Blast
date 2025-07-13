@@ -15,23 +15,19 @@
     <a href="surprise.html">Surprise</a>
     <a href="gallery.html">Gallery</a>
     <a href="guestbook.html">Guestbook</a>
+    <a href="message.html">Messages</a>
     <a href="admin.html">Admin</a>
   </nav>
 
   <h1>📸 Birthday Gallery</h1>
-  <div class="gallery">
-    <img src="img/photo1.jpg" alt="photo1" onclick="viewImg(this.src)" />
-    <img src="img/photo2.jpg" alt="photo2" onclick="viewImg(this.src)" />
-    <img src="img/photo3.jpg" alt="photo3" onclick="viewImg(this.src)" />
-    <img src="img/photo4.jpg" alt="photo4" onclick="viewImg(this.src)" />
-    <img src="img/photo5.jpg" alt="photo5" onclick="viewImg(this.src)" />
-    <img src="img/photo6.jpg" alt="photo6" onclick="viewImg(this.src)" />
-    <img src="img/photo7.jpg" alt="photo7" onclick="viewImg(this.src)" />
-    <img src="img/photo8.jpg" alt="photo8" onclick="viewImg(this.src)" />
-  </div>
 
-  <div id="lightbox" onclick="this.style.display='none'">
+  <input type="file" id="imgUpload" accept="image/*" />
+  <div class="gallery" id="gallery"></div>
+
+  <div id="lightbox" onclick="closeLightbox()">
+    <button id="prevBtn" onclick="prevImg(event)">←</button>
     <img id="fullImg" />
+    <button id="nextBtn" onclick="nextImg(event)">→</button>
   </div>
 
   <footer>
