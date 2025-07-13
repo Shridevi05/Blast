@@ -23,22 +23,22 @@
 
   <div class="gallery" id="gallery"></div>
 
+  <div class="upload-section">
+    <input type="file" id="galleryInput" accept="image/*" />
+    <button class="upload-btn" onclick="uploadGalleryImage()">Add Photo</button>
+  </div>
+
   <div id="lightbox" onclick="hideLightbox()">
     <button id="prevBtn" onclick="prevImg(event)">&#8592;</button>
     <img id="fullImg" />
     <button id="nextBtn" onclick="nextImg(event)">&#8594;</button>
   </div>
 
-  <div class="upload-section">
-    <input type="file" id="photoUpload" accept="image/*" />
-    <button onclick="uploadPhoto()">Add Photo</button>
-  </div>
-
   <footer>
     <p>© 2025 Shridevi's 20th Birthday Blast 🎉</p>
   </footer>
 
-  <script src="firebase.js"></script>
-  <script src="script.js"></script>
+  <script src="firebase.js" type="module"></script>
+  <script src="script.js" type="module"></script>
 </body>
 </html>
