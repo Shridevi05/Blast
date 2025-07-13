@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Birthday Guestbook</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -24,12 +24,14 @@
     <input type="text" id="name" placeholder="Your Name" required />
     <textarea id="wish" placeholder="Your Wish" required></textarea>
 
-    <div class="flower-options">
-      <label><input type="radio" name="flower" value="🌹" checked /> 🌹</label>
-      <label><input type="radio" name="flower" value="🌻" /> 🌻</label>
-      <label><input type="radio" name="flower" value="🌸" /> 🌸</label>
-      <label><input type="radio" name="flower" value="🌼" /> 🌼</label>
-    </div>
+    <select id="flower">
+      <option value="">🌸 Choose a flower</option>
+      <option value="🌹">🌹 Rose</option>
+      <option value="🌻">🌻 Sunflower</option>
+      <option value="💐">💐 Bouquet</option>
+      <option value="🌷">🌷 Tulip</option>
+      <option value="🌺">🌺 Hibiscus</option>
+    </select>
 
     <input type="file" id="imageUpload" accept="image/*" />
     <button type="submit">Submit Wish</button>
@@ -42,8 +44,8 @@
     <p>© 2025 Shridevi's 20th Birthday Blast 🎉</p>
   </footer>
 
-  <script src="firebase.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+  <script src="firebase.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
