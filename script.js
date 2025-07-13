@@ -59,7 +59,7 @@ window.submitWish = async function (event) {
     timestamp: new Date().toISOString()
   });
 
-  document.getElementById("confirmation").innerHTML = "🎉 Thank you for your wish! 🎉";
+  document.getElementById("confirmation").innerHTML = "🎉 Thank you for your lovely birthday wish! It truly made my day more special. 💖";
   document.getElementById("yourWish").innerHTML = `<p><b>${name}:</b> ${message}</p>`;
   fireConfetti();
 
