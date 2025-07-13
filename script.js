@@ -39,7 +39,7 @@ window.submitWish = async function (event) {
 
   const name = document.getElementById("name").value.trim();
   const message = document.getElementById("wish").value.trim();
-  const file = document.getElementById("wishImage")?.files[0];
+  const file = document.getElementById("imageUpload")?.files[0];
   const flower = document.getElementById("flower")?.value || "";
 
   if (!name || !message) return alert("Please enter both name and message");
@@ -65,9 +65,9 @@ window.submitWish = async function (event) {
 
   document.getElementById("name").value = "";
   document.getElementById("wish").value = "";
-  if (document.getElementById("wishImage")) document.getElementById("wishImage").value = "";
-  if (document.getElementById("flower")) document.getElementById("flower").value = "";
-}
+  document.getElementById("imageUpload").value = "";
+  document.getElementById("flower").value = "";
+};
 
 // 📖 Load Wishes (Admin or Public)
 window.loadAllWishes = async function (isAdmin = false) {
@@ -153,14 +153,11 @@ window.uploadGalleryImage = async function () {
   gallery.appendChild(img);
 };
 
-// 🆕📁 BEFORE: No local image loading
-// 🆕📁 NOW: Load photo1.jpg to photo8.jpg from "img/" folder before Firebase
-
+// 🆕📁 Load local images + Firebase ones
 window.loadGalleryImages = async function () {
   const gallery = document.getElementById("gallery");
   gallery.innerHTML = "";
 
-  // 🖼️ Load local images (photo1.jpg to photo8.jpg)
   for (let i = 1; i <= 8; i++) {
     const url = `img/photo${i}.jpg`;
     const img = document.createElement("img");
@@ -171,7 +168,6 @@ window.loadGalleryImages = async function () {
     gallery.appendChild(img);
   }
 
-  // ☁️ Load Firebase images after local ones
   const listRef = ref(storage, 'gallery');
   try {
     const result = await listAll(listRef);
@@ -192,4 +188,9 @@ window.loadGalleryImages = async function () {
 // 🔁 Auto-load for gallery page
 if (window.location.pathname.includes("gallery")) {
   loadGalleryImages();
+}
+
+// 🎉 Surprise confetti
+if (window.location.pathname.includes("surprise")) {
+  window.addEventListener("load", fireConfetti);
 }
