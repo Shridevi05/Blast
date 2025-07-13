@@ -26,15 +26,15 @@
     <p>© 2025 Shridevi's 20th Birthday Blast 🎉</p>
   </footer>
 
-  <script src="firebase.js"></script>
-  <script src="script.js"></script>
+  <script src="firebase.js" type="module"></script>
+  <script src="script.js" type="module"></script>
   <script>
     const pwd = prompt("Enter admin password:");
     if (pwd !== "shridevi20") {
       alert("Access Denied");
       location.href = "index.html";
     } else {
-      loadAllWishes(true); // admin mode
+      loadAllWishes(true);
     }
   </script>
 </body>
