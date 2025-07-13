@@ -4,7 +4,7 @@ body {
   background: linear-gradient(to right, #ffc0cb, #fbb1d8);
   color: #333;
   text-align: center;
-  padding: 2rem;
+  padding: 3rem 1rem 2rem;
   margin: 0;
   transition: background 0.5s, color 0.5s;
 }
@@ -17,15 +17,15 @@ body.dark-mode {
 /* 🌗 Theme Toggle Button */
 .theme-toggle {
   position: fixed;
-  top: 10px;
   right: 20px;
-  padding: 8px 14px;
+  top: 20px;
+  padding: 5px 10px;
   background: #333;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 999;
 }
 
 /* 🔗 Navigation Bar */
@@ -60,19 +60,16 @@ footer {
   color: #333;
   border-radius: 10px;
   font-size: 0.9rem;
-  position: relative;
-  bottom: 0;
-  width: 100%;
+  text-align: center;
 }
 
 /* 🧁 Cake */
 .cake {
-  margin: 4rem auto 2rem auto; /* Top margin increased */
+  margin: 4rem auto 2rem;
   width: 100px;
   height: 150px;
   position: relative;
 }
-
 
 .layer {
   width: 100px;
@@ -112,6 +109,11 @@ footer {
   100% { opacity: 1; transform: scale(1); }
 }
 
+.birthday-heading {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
 /* 💌 Form Styles */
 form {
   display: flex;
@@ -119,7 +121,7 @@ form {
   align-items: center;
 }
 
-form input, form textarea {
+form input, form textarea, form select {
   width: 60%;
   max-width: 400px;
   padding: 10px;
@@ -181,11 +183,8 @@ form button:hover {
 /* 🔍 Lightbox */
 #lightbox {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
   display: none;
   align-items: center;
   justify-content: center;
@@ -215,29 +214,20 @@ form button:hover {
   display: none;
 }
 
-/* 🌸 Virtual Flower Styling */
-.flower-options label {
-  margin: 0 10px;
-  font-size: 1rem;
-  cursor: pointer;
+/* 🌸 Virtual Flower Styles */
+.flower-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-/* Responsive Tweaks */
-@media (max-width: 600px) {
-  .theme-toggle {
-    right: 10px;
-    top: 10px;
-  }
+.flower-container span {
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+}
 
-  form input, form textarea {
-    width: 80%;
-  }
-
-  .button-group a, .cta {
-    width: 80%;
-  }
-
-  #prevBtn, #nextBtn {
-    font-size: 1.5rem;
-  }
+.flower-container span:hover {
+  transform: scale(1.3);
 }
