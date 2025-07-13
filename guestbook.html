@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Birthday Guestbook</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -23,15 +23,15 @@
   <form onsubmit="submitWish(event)">
     <input type="text" id="name" placeholder="Your Name" required />
     <textarea id="wish" placeholder="Your Wish" required></textarea>
-    <label>Upload Image:</label>
-    <input type="file" id="wishImage" accept="image/*" />
-    <label>Select a Flower:</label>
-    <select id="flower">
-      <option value="🌸">🌸 Cherry Blossom</option>
-      <option value="🌹">🌹 Rose</option>
-      <option value="🌻">🌻 Sunflower</option>
-      <option value="🌼">🌼 Daisy</option>
-    </select>
+
+    <div class="flower-options">
+      <label><input type="radio" name="flower" value="🌹" checked /> 🌹</label>
+      <label><input type="radio" name="flower" value="🌻" /> 🌻</label>
+      <label><input type="radio" name="flower" value="🌸" /> 🌸</label>
+      <label><input type="radio" name="flower" value="🌼" /> 🌼</label>
+    </div>
+
+    <input type="file" id="imageUpload" accept="image/*" />
     <button type="submit">Submit Wish</button>
   </form>
 
@@ -42,6 +42,7 @@
     <p>© 2025 Shridevi's 20th Birthday Blast 🎉</p>
   </footer>
 
+  <script src="firebase.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
 </body>
