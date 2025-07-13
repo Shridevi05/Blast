@@ -1,4 +1,4 @@
-// script.js (FULLY UPDATED)
+// script.js
 
 import { db, storage } from "./firebase.js";
 import {
@@ -12,13 +12,14 @@ import {
 import {
   ref,
   uploadBytes,
-  getDownloadURL
+  getDownloadURL,
+  listAll
 } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-storage.js";
 
 // 🌙 Toggle Theme
-export function toggleTheme() {
+window.toggleTheme = function () {
   document.body.classList.toggle("dark-mode");
-}
+};
 
 // 🎉 Confetti
 export function fireConfetti() {
@@ -37,8 +38,8 @@ window.submitWish = async function (event) {
 
   const name = document.getElementById("name").value.trim();
   const message = document.getElementById("wish").value.trim();
-  const file = document.getElementById("wishImage").files[0];
-  const flower = document.querySelector('input[name="flower"]:checked')?.value || "";
+  const file = document.getElementById("imageUpload").files[0];
+  const flower = document.getElementById("flower").value;
 
   if (!name || !message) return alert("Please enter both name and message");
 
@@ -57,16 +58,15 @@ window.submitWish = async function (event) {
     timestamp: new Date().toISOString()
   });
 
-  document.getElementById("confirmation").innerHTML = "🎉 Thank you for your wish! 🎉";
+  document.getElementById("confirmation").innerHTML = "🎉 Thank you for your wish!";
   document.getElementById("yourWish").innerHTML = `<p><b>${name}:</b> ${message}</p>`;
   fireConfetti();
 
   document.getElementById("name").value = "";
   document.getElementById("wish").value = "";
-  document.getElementById("wishImage").value = "";
-  const checked = document.querySelector('input[name="flower"]:checked');
-  if (checked) checked.checked = false;
-}
+  document.getElementById("imageUpload").value = "";
+  document.getElementById("flower").value = "";
+};
 
 // 📖 Load Wishes (Admin or Public)
 window.loadAllWishes = async function (isAdmin = false) {
@@ -108,7 +108,7 @@ window.loadAllWishes = async function (isAdmin = false) {
   });
 };
 
-// 📸 Gallery View Image
+// 📸 Show Lightbox Image
 window.viewImg = function (src, index) {
   const lightbox = document.getElementById("lightbox");
   const fullImg = document.getElementById("fullImg");
@@ -117,18 +117,24 @@ window.viewImg = function (src, index) {
   lightbox.style.display = "flex";
 };
 
-window.prevImg = function () {
+window.prevImg = function (e) {
+  e.stopPropagation();
   let index = parseInt(document.getElementById("lightbox").dataset.index);
   const images = Array.from(document.querySelectorAll(".gallery img"));
   index = (index - 1 + images.length) % images.length;
   viewImg(images[index].src, index);
 };
 
-window.nextImg = function () {
+window.nextImg = function (e) {
+  e.stopPropagation();
   let index = parseInt(document.getElementById("lightbox").dataset.index);
   const images = Array.from(document.querySelectorAll(".gallery img"));
   index = (index + 1) % images.length;
   viewImg(images[index].src, index);
+};
+
+window.hideLightbox = function () {
+  document.getElementById("lightbox").style.display = "none";
 };
 
 // 📤 Upload New Gallery Image
@@ -147,3 +153,26 @@ window.uploadGalleryImage = async function () {
   img.onclick = () => viewImg(url, index);
   gallery.appendChild(img);
 };
+
+// 🖼️ Load Existing Gallery Images from Firebase Storage
+async function loadGalleryImages() {
+  const galleryRef = ref(storage, "gallery");
+  const res = await listAll(galleryRef);
+  const gallery = document.querySelector(".gallery");
+
+  const urls = await Promise.all(
+    res.items.map(itemRef => getDownloadURL(itemRef))
+  );
+
+  urls.forEach((url, i) => {
+    const img = document.createElement("img");
+    img.src = url;
+    img.onclick = () => viewImg(url, i);
+    gallery.appendChild(img);
+  });
+}
+
+// 🔁 Auto-load gallery images on gallery.html
+if (document.getElementById("gallery")) {
+  loadGalleryImages();
+}
