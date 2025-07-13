@@ -60,6 +60,12 @@ window.submitWish = async function (event) {
   document.getElementById("confirmation").innerHTML = "🎉 Thank you for your wish! 🎉";
   document.getElementById("yourWish").innerHTML = `<p><b>${name}:</b> ${message}</p>`;
   fireConfetti();
+
+  document.getElementById("name").value = "";
+  document.getElementById("wish").value = "";
+  document.getElementById("wishImage").value = "";
+  const checked = document.querySelector('input[name="flower"]:checked');
+  if (checked) checked.checked = false;
 }
 
 // 📖 Load Wishes (Admin or Public)
@@ -82,6 +88,8 @@ window.loadAllWishes = async function (isAdmin = false) {
       const img = document.createElement("img");
       img.src = w.imageUrl;
       img.style.maxWidth = "200px";
+      img.style.display = "block";
+      img.style.margin = "10px auto";
       div.appendChild(img);
     }
 
