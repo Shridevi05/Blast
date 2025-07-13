@@ -122,13 +122,14 @@ form {
 }
 
 form input, form textarea, form select {
-  width: 60%;
+  width: 90%;
   max-width: 400px;
   padding: 10px;
   margin: 10px 0;
   font-size: 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 form button {
@@ -148,8 +149,8 @@ form button:hover {
 }
 
 /* 🎉 Buttons and CTA */
-.button-group a, .cta {
-  display: block;
+.button-group a, .cta, .upload-btn {
+  display: inline-block;
   margin: 10px auto;
   width: 200px;
   background: #ff726f;
@@ -158,9 +159,10 @@ form button:hover {
   border-radius: 10px;
   text-decoration: none;
   font-weight: bold;
+  text-align: center;
 }
 
-.button-group a:hover, .cta:hover {
+.button-group a:hover, .cta:hover, .upload-btn:hover {
   background: #ff4f4f;
 }
 
@@ -170,14 +172,24 @@ form button:hover {
   flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
+  margin-top: 20px;
 }
 
 .gallery img {
-  width: 100px;
+  width: 120px;
   height: auto;
   border-radius: 10px;
   cursor: pointer;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+/* 📤 Upload Section */
+.upload-section {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 /* 🔍 Lightbox */
@@ -209,25 +221,12 @@ form button:hover {
   z-index: 1000;
 }
 
-/* 🔒 Hidden Login Section */
+/* 🔒 Hidden Section */
 .hidden {
   display: none;
 }
 
-/* 🌸 Virtual Flower Styles */
-.flower-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.flower-container span {
-  font-size: 1.5rem;
-  transition: transform 0.3s;
-}
-
-.flower-container span:hover {
-  transform: scale(1.3);
+/* 🌸 Flower Selector */
+select#flower {
+  text-align: center;
 }
