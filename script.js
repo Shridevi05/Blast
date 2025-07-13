@@ -1,5 +1,6 @@
-// script.js
+// script.js (FINAL with Local Images + Firebase)
 
+// ⛅ Firebase Setup
 import { db, storage } from "./firebase.js";
 import {
   collection,
@@ -13,13 +14,13 @@ import {
   ref,
   uploadBytes,
   getDownloadURL,
-  listAll
+  listAll // ✅ NEW
 } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-storage.js";
 
-// 🌙 Toggle Theme
-window.toggleTheme = function () {
+// 🌙 Theme Toggle
+export function toggleTheme() {
   document.body.classList.toggle("dark-mode");
-};
+}
 
 // 🎉 Confetti
 export function fireConfetti() {
@@ -38,8 +39,8 @@ window.submitWish = async function (event) {
 
   const name = document.getElementById("name").value.trim();
   const message = document.getElementById("wish").value.trim();
-  const file = document.getElementById("imageUpload").files[0];
-  const flower = document.getElementById("flower").value;
+  const file = document.getElementById("wishImage")?.files[0];
+  const flower = document.getElementById("flower")?.value || "";
 
   if (!name || !message) return alert("Please enter both name and message");
 
@@ -58,15 +59,15 @@ window.submitWish = async function (event) {
     timestamp: new Date().toISOString()
   });
 
-  document.getElementById("confirmation").innerHTML = "🎉 Thank you for your wish!";
+  document.getElementById("confirmation").innerHTML = "🎉 Thank you for your wish! 🎉";
   document.getElementById("yourWish").innerHTML = `<p><b>${name}:</b> ${message}</p>`;
   fireConfetti();
 
   document.getElementById("name").value = "";
   document.getElementById("wish").value = "";
-  document.getElementById("imageUpload").value = "";
-  document.getElementById("flower").value = "";
-};
+  if (document.getElementById("wishImage")) document.getElementById("wishImage").value = "";
+  if (document.getElementById("flower")) document.getElementById("flower").value = "";
+}
 
 // 📖 Load Wishes (Admin or Public)
 window.loadAllWishes = async function (isAdmin = false) {
@@ -108,7 +109,7 @@ window.loadAllWishes = async function (isAdmin = false) {
   });
 };
 
-// 📸 Show Lightbox Image
+// 📸 Lightbox Viewer
 window.viewImg = function (src, index) {
   const lightbox = document.getElementById("lightbox");
   const fullImg = document.getElementById("fullImg");
@@ -117,27 +118,25 @@ window.viewImg = function (src, index) {
   lightbox.style.display = "flex";
 };
 
-window.prevImg = function (e) {
-  e.stopPropagation();
+window.hideLightbox = function () {
+  document.getElementById("lightbox").style.display = "none";
+};
+
+window.prevImg = function () {
   let index = parseInt(document.getElementById("lightbox").dataset.index);
   const images = Array.from(document.querySelectorAll(".gallery img"));
   index = (index - 1 + images.length) % images.length;
   viewImg(images[index].src, index);
 };
 
-window.nextImg = function (e) {
-  e.stopPropagation();
+window.nextImg = function () {
   let index = parseInt(document.getElementById("lightbox").dataset.index);
   const images = Array.from(document.querySelectorAll(".gallery img"));
   index = (index + 1) % images.length;
   viewImg(images[index].src, index);
 };
 
-window.hideLightbox = function () {
-  document.getElementById("lightbox").style.display = "none";
-};
-
-// 📤 Upload New Gallery Image
+// 📤 Upload Gallery Image to Firebase
 window.uploadGalleryImage = async function () {
   const file = document.getElementById("galleryInput").files[0];
   if (!file) return alert("No file selected");
@@ -154,25 +153,43 @@ window.uploadGalleryImage = async function () {
   gallery.appendChild(img);
 };
 
-// 🖼️ Load Existing Gallery Images from Firebase Storage
-async function loadGalleryImages() {
-  const galleryRef = ref(storage, "gallery");
-  const res = await listAll(galleryRef);
-  const gallery = document.querySelector(".gallery");
+// 🆕📁 BEFORE: No local image loading
+// 🆕📁 NOW: Load photo1.jpg to photo8.jpg from "img/" folder before Firebase
 
-  const urls = await Promise.all(
-    res.items.map(itemRef => getDownloadURL(itemRef))
-  );
+window.loadGalleryImages = async function () {
+  const gallery = document.getElementById("gallery");
+  gallery.innerHTML = "";
 
-  urls.forEach((url, i) => {
+  // 🖼️ Load local images (photo1.jpg to photo8.jpg)
+  for (let i = 1; i <= 8; i++) {
+    const url = `img/photo${i}.jpg`;
     const img = document.createElement("img");
     img.src = url;
-    img.onclick = () => viewImg(url, i);
+    img.alt = `Photo ${i}`;
+    const index = gallery.querySelectorAll("img").length;
+    img.onclick = () => viewImg(url, index);
     gallery.appendChild(img);
-  });
-}
+  }
 
-// 🔁 Auto-load gallery images on gallery.html
-if (document.getElementById("gallery")) {
+  // ☁️ Load Firebase images after local ones
+  const listRef = ref(storage, 'gallery');
+  try {
+    const result = await listAll(listRef);
+    const urls = await Promise.all(result.items.map(item => getDownloadURL(item)));
+
+    urls.forEach((url) => {
+      const img = document.createElement("img");
+      img.src = url;
+      const index = gallery.querySelectorAll("img").length;
+      img.onclick = () => viewImg(url, index);
+      gallery.appendChild(img);
+    });
+  } catch (error) {
+    console.error("Error loading Firebase gallery:", error);
+  }
+};
+
+// 🔁 Auto-load for gallery page
+if (window.location.pathname.includes("gallery")) {
   loadGalleryImages();
 }
