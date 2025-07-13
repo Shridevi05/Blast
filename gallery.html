@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gallery</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
   <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
@@ -21,92 +22,30 @@
 
   <h1>📸 Birthday Gallery</h1>
 
-  <!-- Image Upload -->
-  <input type="file" accept="image/*" onchange="addPhoto(event)" />
+  <input type="file" id="galleryInput" accept="image/*">
+  <button onclick="uploadGalleryImage()">Add Photo</button>
 
-  <!-- Gallery Display -->
-  <div class="gallery" id="gallery">
-    <img src="img/photo1.jpg" alt="photo1" onclick="viewImg(this)" />
-    <img src="img/photo2.jpg" alt="photo2" onclick="viewImg(this)" />
-    <img src="img/photo3.jpg" alt="photo3" onclick="viewImg(this)" />
-    <img src="img/photo4.jpg" alt="photo4" onclick="viewImg(this)" />
-    <img src="img/photo5.jpg" alt="photo5" onclick="viewImg(this)" />
-    <img src="img/photo6.jpg" alt="photo6" onclick="viewImg(this)" />
-    <img src="img/photo7.jpg" alt="photo7" onclick="viewImg(this)" />
-    <img src="img/photo8.jpg" alt="photo8" onclick="viewImg(this)" />
+  <div class="gallery">
+    <img src="img/photo1.jpg" alt="photo1" onclick="viewImg(this.src, 0)" />
+    <img src="img/photo2.jpg" alt="photo2" onclick="viewImg(this.src, 1)" />
+    <img src="img/photo3.jpg" alt="photo3" onclick="viewImg(this.src, 2)" />
+    <img src="img/photo4.jpg" alt="photo4" onclick="viewImg(this.src, 3)" />
+    <img src="img/photo5.jpg" alt="photo5" onclick="viewImg(this.src, 4)" />
+    <img src="img/photo6.jpg" alt="photo6" onclick="viewImg(this.src, 5)" />
+    <img src="img/photo7.jpg" alt="photo7" onclick="viewImg(this.src, 6)" />
+    <img src="img/photo8.jpg" alt="photo8" onclick="viewImg(this.src, 7)" />
   </div>
 
-  <!-- Lightbox View -->
-  <div id="lightbox" onclick="closeLightbox()">
-    <button id="prevBtn" onclick="prevImg(event)">⟨</button>
+  <div id="lightbox" onclick="this.style.display='none'">
+    <button id="prevBtn" onclick="event.stopPropagation(); prevImg()">⟨</button>
     <img id="fullImg" />
-    <button id="nextBtn" onclick="nextImg(event)">⟩</button>
+    <button id="nextBtn" onclick="event.stopPropagation(); nextImg()">⟩</button>
   </div>
 
   <footer>
     <p>© 2025 Shridevi's 20th Birthday Blast 🎉</p>
   </footer>
 
-  <script src="script.js"></script>
-  <script>
-    // Add uploaded photo
-    function addPhoto(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const base64 = e.target.result;
-
-        let photos = JSON.parse(localStorage.getItem("galleryPhotos")) || [];
-        photos.push(base64);
-        localStorage.setItem("galleryPhotos", JSON.stringify(photos));
-
-        const img = document.createElement("img");
-        img.src = base64;
-        img.onclick = () => viewImg(img);
-        document.getElementById("gallery").appendChild(img);
-      };
-      reader.readAsDataURL(file);
-    }
-
-    // Load stored photos on load
-    window.onload = function() {
-      const storedPhotos = JSON.parse(localStorage.getItem("galleryPhotos")) || [];
-      const gallery = document.getElementById("gallery");
-      storedPhotos.forEach(src => {
-        const img = document.createElement("img");
-        img.src = src;
-        img.onclick = () => viewImg(img);
-        gallery.appendChild(img);
-      });
-    };
-
-    // Lightbox functionality
-    let currentIndex = 0;
-    function viewImg(imgElement) {
-      const allImgs = [...document.querySelectorAll(".gallery img")];
-      currentIndex = allImgs.indexOf(imgElement);
-      document.getElementById("fullImg").src = imgElement.src;
-      document.getElementById("lightbox").style.display = "flex";
-    }
-
-    function closeLightbox() {
-      document.getElementById("lightbox").style.display = "none";
-    }
-
-    function prevImg(event) {
-      event.stopPropagation();
-      const imgs = [...document.querySelectorAll(".gallery img")];
-      currentIndex = (currentIndex - 1 + imgs.length) % imgs.length;
-      document.getElementById("fullImg").src = imgs[currentIndex].src;
-    }
-
-    function nextImg(event) {
-      event.stopPropagation();
-      const imgs = [...document.querySelectorAll(".gallery img")];
-      currentIndex = (currentIndex + 1) % imgs.length;
-      document.getElementById("fullImg").src = imgs[currentIndex].src;
-    }
-  </script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
