@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gallery</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
   <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
@@ -22,30 +21,24 @@
 
   <h1>📸 Birthday Gallery</h1>
 
-  <input type="file" id="galleryInput" accept="image/*">
-  <button onclick="uploadGalleryImage()">Add Photo</button>
+  <div class="gallery" id="gallery"></div>
 
-  <div class="gallery">
-    <img src="img/photo1.jpg" alt="photo1" onclick="viewImg(this.src, 0)" />
-    <img src="img/photo2.jpg" alt="photo2" onclick="viewImg(this.src, 1)" />
-    <img src="img/photo3.jpg" alt="photo3" onclick="viewImg(this.src, 2)" />
-    <img src="img/photo4.jpg" alt="photo4" onclick="viewImg(this.src, 3)" />
-    <img src="img/photo5.jpg" alt="photo5" onclick="viewImg(this.src, 4)" />
-    <img src="img/photo6.jpg" alt="photo6" onclick="viewImg(this.src, 5)" />
-    <img src="img/photo7.jpg" alt="photo7" onclick="viewImg(this.src, 6)" />
-    <img src="img/photo8.jpg" alt="photo8" onclick="viewImg(this.src, 7)" />
+  <div id="lightbox" onclick="hideLightbox()">
+    <button id="prevBtn" onclick="prevImg(event)">&#8592;</button>
+    <img id="fullImg" />
+    <button id="nextBtn" onclick="nextImg(event)">&#8594;</button>
   </div>
 
-  <div id="lightbox" onclick="this.style.display='none'">
-    <button id="prevBtn" onclick="event.stopPropagation(); prevImg()">⟨</button>
-    <img id="fullImg" />
-    <button id="nextBtn" onclick="event.stopPropagation(); nextImg()">⟩</button>
+  <div class="upload-section">
+    <input type="file" id="photoUpload" accept="image/*" />
+    <button onclick="uploadPhoto()">Add Photo</button>
   </div>
 
   <footer>
     <p>© 2025 Shridevi's 20th Birthday Blast 🎉</p>
   </footer>
 
-  <script type="module" src="script.js"></script>
+  <script src="firebase.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
