@@ -39,12 +39,13 @@
   </footer>
 
   <script src="firebase.js" type="module"></script>
-  <script src="script.js" type="module"></script>
+<script src="script.js" type="module"></script>
 
-  <script type="module">
-    if (window.location.pathname.includes("gallery")) {
-      loadGalleryImages();
-    }
-  </script>
+<script type="module">
+  // Call gallery image loader on page load
+  window.addEventListener("DOMContentLoaded", () => {
+    loadGalleryImages();
+  });
+</script>
 </body>
 </html>
