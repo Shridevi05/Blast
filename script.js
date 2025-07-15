@@ -1,5 +1,3 @@
-// script.js (FINAL with Gallery + Guestbook Fixes)
-
 import { db, storage } from "./firebase.js";
 import {
   collection,
@@ -11,12 +9,11 @@ import {
 
 import {
   ref,
-  uploadBytes,
   getDownloadURL,
   listAll
 } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-storage.js";
 
-// 🌙 Toggle Theme
+// 🌙 Theme Toggle
 export function toggleTheme() {
   document.body.classList.toggle("dark-mode");
 }
@@ -33,7 +30,7 @@ export function fireConfetti() {
 }
 window.fireConfetti = fireConfetti;
 
-// 💌 Submit a Wish (with image + flower)
+// 💌 Submit Wish (without image)
 window.submitWish = async function (event) {
   event.preventDefault();
 
@@ -47,21 +44,21 @@ window.submitWish = async function (event) {
     name,
     message,
     flower,
-    imageUrl,
+    imageUrl: "", // placeholder only
     timestamp: new Date().toISOString()
   });
 
   document.getElementById("confirmation").innerHTML =
-    "🎉 Thank you for your lovely birthday wish! It truly made my day more special. 💖";
+    "🎉 Thank you for your lovely birthday wish! 💖";
   document.getElementById("yourWish").innerHTML = `<p><b>${name}:</b> ${message}</p>`;
   fireConfetti();
 
   document.getElementById("name").value = "";
   document.getElementById("wish").value = "";
-  if (document.getElementById("flower")) document.getElementById("flower").value = "";
+  document.getElementById("flower").value = "";
 };
 
-// 📖 Load Wishes (Admin or Public)
+// 📖 Load All Wishes
 window.loadAllWishes = async function (isAdmin = false) {
   const container = document.getElementById("wishList");
   const snapshot = await getDocs(collection(db, "wishes"));
@@ -101,7 +98,38 @@ window.loadAllWishes = async function (isAdmin = false) {
   });
 };
 
-// 📸 Lightbox
+// 🖼️ Load Gallery Images (Firebase + local)
+window.loadGalleryImages = async function () {
+  const gallery = document.getElementById("gallery");
+  gallery.innerHTML = "";
+
+  for (let i = 1; i <= 8; i++) {
+    const url = `img/photo${i}.jpg`;
+    const img = document.createElement("img");
+    img.src = url;
+    img.alt = `Photo ${i}`;
+    const index = gallery.querySelectorAll("img").length;
+    img.onclick = () => viewImg(url, index);
+    gallery.appendChild(img);
+  }
+
+  const listRef = ref(storage, "gallery");
+  try {
+    const result = await listAll(listRef);
+    const urls = await Promise.all(result.items.map(item => getDownloadURL(item)));
+    urls.forEach((url) => {
+      const img = document.createElement("img");
+      img.src = url;
+      const index = gallery.querySelectorAll("img").length;
+      img.onclick = () => viewImg(url, index);
+      gallery.appendChild(img);
+    });
+  } catch (error) {
+    console.error("Error loading Firebase gallery:", error);
+  }
+};
+
+// 🖼️ Lightbox functions
 window.viewImg = function (src, index) {
   const lightbox = document.getElementById("lightbox");
   const fullImg = document.getElementById("fullImg");
@@ -127,67 +155,3 @@ window.nextImg = function () {
   index = (index + 1) % images.length;
   viewImg(images[index].src, index);
 };
-
-// 📤 Upload to Firebase Gallery
-window.uploadGalleryImage = async function () {
-  const file = document.getElementById("galleryInput").files[0];
-  if (!file) return alert("No file selected");
-
-  const imgRef = ref(storage, `gallery/${Date.now()}_${file.name}`);
-  await uploadBytes(imgRef, file);
-  const url = await getDownloadURL(imgRef);
-
-  const gallery = document.querySelector(".gallery");
-  const index = gallery.querySelectorAll("img").length;
-  const img = document.createElement("img");
-  img.src = url;
-  img.onclick = () => viewImg(url, index);
-  gallery.appendChild(img);
-
-  alert("✅ Image uploaded to gallery!");
-
-  // ✅ Add this below the alert to show thank-you message
-  const thankYou = document.createElement("p");
-  thankYou.innerText = "🎉 Your photo was added to the gallery!";
-  thankYou.style.color = "#28a745";
-  thankYou.style.marginTop = "10px";
-  document.querySelector(".upload-section").appendChild(thankYou);
-};
-
-
-// 🖼️ Load Local + Firebase Gallery Images
-window.loadGalleryImages = async function () {
-  const gallery = document.getElementById("gallery");
-  gallery.innerHTML = "";
-
-  for (let i = 1; i <= 8; i++) {
-    const url = `img/photo${i}.jpg`;
-    const img = document.createElement("img");
-    img.src = url;
-    img.alt = `Photo ${i}`;
-    const index = gallery.querySelectorAll("img").length;
-    img.onclick = () => viewImg(url, index);
-    gallery.appendChild(img);
-  }
-
-  const listRef = ref(storage, "gallery");
-  try {
-    const result = await listAll(listRef);
-    const urls = await Promise.all(result.items.map(item => getDownloadURL(item)));
-
-    urls.forEach((url) => {
-      const img = document.createElement("img");
-      img.src = url;
-      const index = gallery.querySelectorAll("img").length;
-      img.onclick = () => viewImg(url, index);
-      gallery.appendChild(img);
-    });
-  } catch (error) {
-    console.error("Error loading Firebase gallery:", error);
-  }
-};
-
-// Auto-load for gallery.html
-if (window.location.pathname.includes("gallery")) {
-  loadGalleryImages();
-}
