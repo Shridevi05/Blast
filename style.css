@@ -240,4 +240,19 @@ select#flower {
 .birthday-heading {
   position: relative;
   z-index: 2;
+.cake {
+  position: relative;
+  z-index: 1;
+  margin-top: 80px;
 }
+
+.birthday-heading {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 30px;
+}
+
+.flame {
+  z-index: 0;
+}
+
