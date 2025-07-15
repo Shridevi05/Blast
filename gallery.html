@@ -5,8 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gallery</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Ensure lightbox buttons don't block lightbox close */
+    #lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    #lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+    }
+
+    #prevBtn, #nextBtn {
+      background: white;
+      border: none;
+      font-size: 2rem;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 8px;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+    }
+
+    #prevBtn { left: 10px; }
+    #nextBtn { right: 10px; }
+  </style>
 </head>
-<body onload="loadGalleryImages()">
+<body>
   <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
 
   <nav class="navbar">
@@ -22,17 +58,18 @@
   <h1>📸 Birthday Gallery</h1>
 
   <div class="gallery" id="gallery">
-    <img src="img/photo1.jpg" alt="Photo 1" onclick="viewImg(this.src, 0)">
-    <img src="img/photo2.jpg" alt="Photo 2" onclick="viewImg(this.src, 1)">
-    <img src="img/photo3.jpg" alt="Photo 3" onclick="viewImg(this.src, 2)">
-    <img src="img/photo4.jpg" alt="Photo 4" onclick="viewImg(this.src, 3)">
-    <img src="img/photo5.jpg" alt="Photo 5" onclick="viewImg(this.src, 4)">
-    <img src="img/photo6.jpg" alt="Photo 6" onclick="viewImg(this.src, 5)">
-    <img src="img/photo7.jpg" alt="Photo 7" onclick="viewImg(this.src, 6)">
-    <img src="img/photo8.jpg" alt="Photo 8" onclick="viewImg(this.src, 7)">
+    <img src="img/photo1.jpg" alt="Photo 1" onclick="viewImg(0)">
+    <img src="img/photo2.jpg" alt="Photo 2" onclick="viewImg(1)">
+    <img src="img/photo3.jpg" alt="Photo 3" onclick="viewImg(2)">
+    <img src="img/photo4.jpg" alt="Photo 4" onclick="viewImg(3)">
+    <img src="img/photo5.jpg" alt="Photo 5" onclick="viewImg(4)">
+    <img src="img/photo6.jpg" alt="Photo 6" onclick="viewImg(5)">
+    <img src="img/photo7.jpg" alt="Photo 7" onclick="viewImg(6)">
+    <img src="img/photo8.jpg" alt="Photo 8" onclick="viewImg(7)">
   </div>
 
-  <div id="lightbox" style="display:none" onclick="hideLightbox()">
+  <!-- Lightbox -->
+  <div id="lightbox" onclick="hideLightbox()">
     <button id="prevBtn" onclick="prevImg(event)">◀</button>
     <img id="fullImg" />
     <button id="nextBtn" onclick="nextImg(event)">▶</button>
@@ -42,33 +79,46 @@
     <p>© 2025 Shridevi's 20th Birthday Blast 🎉</p>
   </footer>
 
-  <script src="firebase.js" type="module"></script>
-  <script src="script.js" type="module"></script>
   <script>
-    const galleryImages = Array.from(document.querySelectorAll('.gallery img'));
+    const imagePaths = [
+      "img/photo1.jpg",
+      "img/photo2.jpg",
+      "img/photo3.jpg",
+      "img/photo4.jpg",
+      "img/photo5.jpg",
+      "img/photo6.jpg",
+      "img/photo7.jpg",
+      "img/photo8.jpg"
+    ];
+
     let currentImgIndex = 0;
 
-    window.viewImg = function (src, index) {
+    function viewImg(index) {
       currentImgIndex = index;
-      document.getElementById('fullImg').src = src;
-      document.getElementById('lightbox').style.display = 'flex';
-    };
+      document.getElementById("fullImg").src = imagePaths[currentImgIndex];
+      document.getElementById("lightbox").style.display = "flex";
+    }
 
-    window.hideLightbox = function () {
-      document.getElementById('lightbox').style.display = 'none';
-    };
+    function hideLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
 
-    window.prevImg = function (event) {
+    function prevImg(event) {
       event.stopPropagation();
-      currentImgIndex = (currentImgIndex - 1 + galleryImages.length) % galleryImages.length;
-      document.getElementById('fullImg').src = galleryImages[currentImgIndex].src;
-    };
+      currentImgIndex = (currentImgIndex - 1 + imagePaths.length) % imagePaths.length;
+      document.getElementById("fullImg").src = imagePaths[currentImgIndex];
+    }
 
-    window.nextImg = function (event) {
+    function nextImg(event) {
       event.stopPropagation();
-      currentImgIndex = (currentImgIndex + 1) % galleryImages.length;
-      document.getElementById('fullImg').src = galleryImages[currentImgIndex].src;
-    };
+      currentImgIndex = (currentImgIndex + 1) % imagePaths.length;
+      document.getElementById("fullImg").src = imagePaths[currentImgIndex];
+    }
+
+    // Optional: Theme toggle function
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+    }
   </script>
 </body>
 </html>
