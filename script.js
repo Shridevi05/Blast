@@ -1,4 +1,4 @@
-// script.js (FINAL with Gallery + Guestbook Fixes)
+// script.js (FIXED Gallery Upload + View + Confetti + Theme)
 
 import { db, storage } from "./firebase.js";
 import {
@@ -20,6 +20,7 @@ import {
 export function toggleTheme() {
   document.body.classList.toggle("dark-mode");
 }
+window.toggleTheme = toggleTheme;
 
 // 🎉 Confetti
 export function fireConfetti() {
@@ -33,7 +34,7 @@ export function fireConfetti() {
 }
 window.fireConfetti = fireConfetti;
 
-// 💌 Submit a Wish (with image + flower)
+// 💌 Submit a Wish (without image)
 window.submitWish = async function (event) {
   event.preventDefault();
 
@@ -47,7 +48,7 @@ window.submitWish = async function (event) {
     name,
     message,
     flower,
-    imageUrl,
+    imageUrl: "", // 🔁 no image
     timestamp: new Date().toISOString()
   });
 
@@ -61,7 +62,7 @@ window.submitWish = async function (event) {
   if (document.getElementById("flower")) document.getElementById("flower").value = "";
 };
 
-// 📖 Load Wishes (Admin or Public)
+// 📖 Load Wishes
 window.loadAllWishes = async function (isAdmin = false) {
   const container = document.getElementById("wishList");
   const snapshot = await getDocs(collection(db, "wishes"));
@@ -101,7 +102,7 @@ window.loadAllWishes = async function (isAdmin = false) {
   });
 };
 
-// 📸 Lightbox
+// 📸 Lightbox for Gallery
 window.viewImg = function (src, index) {
   const lightbox = document.getElementById("lightbox");
   const fullImg = document.getElementById("fullImg");
@@ -146,7 +147,6 @@ window.uploadGalleryImage = async function () {
 
   alert("✅ Image uploaded to gallery!");
 
-  // ✅ Add this below the alert to show thank-you message
   const thankYou = document.createElement("p");
   thankYou.innerText = "🎉 Your photo was added to the gallery!";
   thankYou.style.color = "#28a745";
@@ -154,12 +154,12 @@ window.uploadGalleryImage = async function () {
   document.querySelector(".upload-section").appendChild(thankYou);
 };
 
-
-// 🖼️ Load Local + Firebase Gallery Images
+// 🖼️ Load Gallery (local + firebase)
 window.loadGalleryImages = async function () {
   const gallery = document.getElementById("gallery");
   gallery.innerHTML = "";
 
+  // Local images
   for (let i = 1; i <= 8; i++) {
     const url = `img/photo${i}.jpg`;
     const img = document.createElement("img");
@@ -170,6 +170,7 @@ window.loadGalleryImages = async function () {
     gallery.appendChild(img);
   }
 
+  // Firebase images
   const listRef = ref(storage, "gallery");
   try {
     const result = await listAll(listRef);
@@ -187,7 +188,7 @@ window.loadGalleryImages = async function () {
   }
 };
 
-// Auto-load for gallery.html
+// 🧠 Auto-load gallery
 if (window.location.pathname.includes("gallery")) {
   loadGalleryImages();
 }
