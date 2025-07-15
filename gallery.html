@@ -1,4 +1,3 @@
-<!-- ✅ gallery.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +6,7 @@
   <title>Gallery</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body onload="loadGalleryImages()">
   <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
 
   <nav class="navbar">
@@ -22,12 +21,21 @@
 
   <h1>📸 Birthday Gallery</h1>
 
-  <div class="gallery" id="gallery"></div>
+  <div class="gallery" id="gallery">
+    <img src="img/photo1.jpg" alt="Photo 1" onclick="viewImg(this.src, 0)">
+    <img src="img/photo2.jpg" alt="Photo 2" onclick="viewImg(this.src, 1)">
+    <img src="img/photo3.jpg" alt="Photo 3" onclick="viewImg(this.src, 2)">
+    <img src="img/photo4.jpg" alt="Photo 4" onclick="viewImg(this.src, 3)">
+    <img src="img/photo5.jpg" alt="Photo 5" onclick="viewImg(this.src, 4)">
+    <img src="img/photo6.jpg" alt="Photo 6" onclick="viewImg(this.src, 5)">
+    <img src="img/photo7.jpg" alt="Photo 7" onclick="viewImg(this.src, 6)">
+    <img src="img/photo8.jpg" alt="Photo 8" onclick="viewImg(this.src, 7)">
+  </div>
 
-  <div id="lightbox" onclick="hideLightbox()">
-    <button id="prevBtn" onclick="prevImg(event)">←</button>
+  <div id="lightbox" style="display:none" onclick="hideLightbox()">
+    <button id="prevBtn" onclick="prevImg(event)">◀</button>
     <img id="fullImg" />
-    <button id="nextBtn" onclick="nextImg(event)">→</button>
+    <button id="nextBtn" onclick="nextImg(event)">▶</button>
   </div>
 
   <footer>
@@ -37,10 +45,30 @@
   <script src="firebase.js" type="module"></script>
   <script src="script.js" type="module"></script>
   <script>
-    // Ensure images load when gallery is accessed
-    if (window.location.pathname.includes("gallery")) {
-      loadGalleryImages();
-    }
+    const galleryImages = Array.from(document.querySelectorAll('.gallery img'));
+    let currentImgIndex = 0;
+
+    window.viewImg = function (src, index) {
+      currentImgIndex = index;
+      document.getElementById('fullImg').src = src;
+      document.getElementById('lightbox').style.display = 'flex';
+    };
+
+    window.hideLightbox = function () {
+      document.getElementById('lightbox').style.display = 'none';
+    };
+
+    window.prevImg = function (event) {
+      event.stopPropagation();
+      currentImgIndex = (currentImgIndex - 1 + galleryImages.length) % galleryImages.length;
+      document.getElementById('fullImg').src = galleryImages[currentImgIndex].src;
+    };
+
+    window.nextImg = function (event) {
+      event.stopPropagation();
+      currentImgIndex = (currentImgIndex + 1) % galleryImages.length;
+      document.getElementById('fullImg').src = galleryImages[currentImgIndex].src;
+    };
   </script>
 </body>
 </html>
