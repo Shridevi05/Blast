@@ -230,3 +230,14 @@ form button:hover {
 select#flower {
   text-align: center;
 }
+/* ✅ Fix overlapping cake and heading */
+.cake {
+  position: relative;
+  z-index: 1;
+  margin-top: 60px;
+}
+
+.birthday-heading {
+  position: relative;
+  z-index: 2;
+}
