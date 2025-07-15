@@ -17,6 +17,7 @@ import {
 export function toggleTheme() {
   document.body.classList.toggle("dark-mode");
 }
+window.toggleTheme = toggleTheme;
 
 // 🎉 Confetti
 export function fireConfetti() {
