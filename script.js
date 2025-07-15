@@ -31,6 +31,7 @@ export function fireConfetti() {
     });
   }
 }
+window.fireConfetti = fireConfetti;
 
 // 💌 Submit a Wish (with image + flower)
 window.submitWish = async function (event) {
