@@ -153,7 +153,15 @@ window.uploadGalleryImage = async function () {
   gallery.appendChild(img);
 
   alert("✅ Image uploaded to gallery!");
+
+  // ✅ Add this below the alert to show thank-you message
+  const thankYou = document.createElement("p");
+  thankYou.innerText = "🎉 Your photo was added to the gallery!";
+  thankYou.style.color = "#28a745";
+  thankYou.style.marginTop = "10px";
+  document.querySelector(".upload-section").appendChild(thankYou);
 };
+
 
 // 🖼️ Load Local + Firebase Gallery Images
 window.loadGalleryImages = async function () {
