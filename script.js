@@ -39,17 +39,9 @@ window.submitWish = async function (event) {
 
   const name = document.getElementById("name").value.trim();
   const message = document.getElementById("wish").value.trim();
-  const file = document.getElementById("imageUpload")?.files[0];
   const flower = document.getElementById("flower")?.value || "";
 
   if (!name || !message) return alert("Please enter both name and message");
-
-  let imageUrl = "";
-  if (file) {
-    const imgRef = ref(storage, `wishImages/${Date.now()}_${file.name}`);
-    await uploadBytes(imgRef, file);
-    imageUrl = await getDownloadURL(imgRef);
-  }
 
   await addDoc(collection(db, "wishes"), {
     name,
@@ -66,7 +58,6 @@ window.submitWish = async function (event) {
 
   document.getElementById("name").value = "";
   document.getElementById("wish").value = "";
-  if (document.getElementById("imageUpload")) document.getElementById("imageUpload").value = "";
   if (document.getElementById("flower")) document.getElementById("flower").value = "";
 };
 
